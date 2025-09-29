@@ -14,14 +14,19 @@ const compat = new FlatCompat({
 
 const config = [
   {
-    ignores: ["components/ui/**/*"],
+    ignores: [
+      "components/ui/**/*",
+      "node_modules/**/*",
+      "next-env.d.ts",
+      ".next/**/*",
+    ],
   },
   ...compat.extends(
     "next/core-web-vitals",
     "next/typescript",
     "standard",
     // "plugin:tailwindcss/recommended",
-    "prettier",
+    "prettier"
   ),
   {
     rules: {
