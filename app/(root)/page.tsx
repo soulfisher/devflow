@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
+import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
@@ -67,7 +68,7 @@ const Home = async ({ searchParams }: searchParams) => {
           otherClasses="flex-1"
         />
       </section>
-      {/* Home Filter */}
+      <HomeFilter />
       <div className="mt-10 flex flex-col gap-6">
         {filteredQuestions.map((question) => (
           <h1 key={question._id}>{question.title}</h1>
