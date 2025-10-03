@@ -1,4 +1,4 @@
-import { Schema, model, models, Types } from "mongoose";
+import { Schema, model, models, Types, Document } from "mongoose";
 import { number } from "zod";
 
 export interface IQuestion {
@@ -10,6 +10,8 @@ export interface IQuestion {
   answers: number;
   author: Types.ObjectId;
 }
+
+export interface IQuestionDoc extends IQuestion, Document {}
 
 const QuestionSchema = new Schema<IQuestion>(
   {
