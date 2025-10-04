@@ -1,17 +1,12 @@
-import { title } from "process";
-
 import Link from "next/link";
 import React from "react";
 
+import { auth } from "@/auth";
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import { api } from "@/lib/api";
-import handleError from "@/lib/handlers/error";
-import { ValidationError } from "@/lib/http-errors";
-import dbConnect from "@/lib/mongoose";
 
 const questions = [
   {
@@ -54,21 +49,14 @@ const questions = [
   },
 ];
 
-const test = async () => {
-  try {
-    return await api.users.getAll();
-  } catch (error) {
-    return handleError(error);
-  }
-};
-
 interface searchParams {
   searchParams: Promise<{ [key: string]: string }>;
 }
 
 const Home = async ({ searchParams }: searchParams) => {
-  const users = await test();
-  console.log(users);
+  const session = await auth();
+
+  console.log("Session: ", session);
 
   const { query = "" } = await searchParams;
 

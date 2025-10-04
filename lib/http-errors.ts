@@ -10,7 +10,7 @@ export class RequestError extends Error {
     super(message);
     this.statusCode = statusCode;
     this.errors = errors;
-    this.name = "RewuestError";
+    this.name = "RequestError";
   }
 }
 
