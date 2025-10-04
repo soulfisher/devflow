@@ -19,7 +19,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           (await api.accounts.getByProvider(
             account.type === "credentials"
               ? token.email!
-              : account.providerAccountId!
+              : account.providerAccountId
           )) as ActionResponse<IAccountDoc>;
 
         if (!success || !existingAccount) return token;
@@ -28,6 +28,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (userId) token.sub = userId.toString();
       }
+
       return token;
     },
     async signIn({ user, profile, account }) {
@@ -47,7 +48,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const { success } = (await api.auth.oAuthSignIn({
         user: userInfo,
         provider: account.provider as "github" | "google",
-        providerAccountId: account.providerAccountId as string,
+        providerAccountId: account.providerAccountId,
       })) as ActionResponse;
 
       if (!success) return false;

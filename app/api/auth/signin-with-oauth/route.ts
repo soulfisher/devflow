@@ -10,8 +10,8 @@ import dbConnect from "@/lib/mongoose";
 import { SignInWithOAuthSchema } from "@/lib/validations";
 import { APIErrorResponse } from "@/types/global";
 
-export async function POST(Request: Request) {
-  const { provider, providerAccountId, user } = await Request.json();
+export async function POST(request: Request) {
+  const { provider, providerAccountId, user } = await request.json();
 
   await dbConnect();
 
@@ -48,6 +48,7 @@ export async function POST(Request: Request) {
 
       if (existingUser.name !== name) updatedData.name = name;
       if (existingUser.image !== image) updatedData.image = image;
+
       if (Object.keys(updatedData).length > 0) {
         await User.updateOne(
           { _id: existingUser._id },
@@ -56,8 +57,8 @@ export async function POST(Request: Request) {
       }
     }
 
-    const existingAccount = Account.findOne({
-      userId: existingUser?._id,
+    const existingAccount = await Account.findOne({
+      userId: existingUser._id,
       provider,
       providerAccountId,
     }).session(session);

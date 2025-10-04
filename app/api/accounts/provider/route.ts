@@ -8,11 +8,11 @@ import { AccountSchema } from "@/lib/validations";
 import { APIErrorResponse } from "@/types/global";
 
 export async function POST(request: Request) {
-  await dbConnect();
-
   const { providerAccountId } = await request.json();
 
   try {
+    await dbConnect();
+
     const validatedData = AccountSchema.partial().safeParse({
       providerAccountId,
     });
@@ -23,7 +23,13 @@ export async function POST(request: Request) {
     const account = await Account.findOne({ providerAccountId });
     if (!account) throw new NotFoundError("Account");
 
-    return NextResponse.json({ success: true, data: account }, { status: 200 });
+    return NextResponse.json(
+      {
+        success: true,
+        data: account,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     return handleError(error, "api") as APIErrorResponse;
   }
