@@ -12,7 +12,7 @@ import { AskQuestionSchema } from "../validations";
 
 export async function createQuestion(
   params: CreateQuestionParams
-): Promise<ActionResponse> {
+): Promise<ActionResponse<Question>> {
   const validationResult = await action({
     params,
     schema: AskQuestionSchema,
@@ -23,7 +23,11 @@ export async function createQuestion(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { title, content, tags } = validationResult;
+  if (!validationResult.params) {
+    return handleError(new Error("Invalid parameters")) as ErrorResponse;
+  }
+
+  const { title, content, tags } = validationResult.params;
   const userId = validationResult?.session?.user?.id;
 
   const session = await mongoose.startSession();
