@@ -1,68 +1,31 @@
 import Link from "next/link";
-import React from "react";
 
-import { auth } from "@/auth";
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
+import { getQuestions } from "@/lib/actions/question.action";
 
-const questions = [
-  {
-    _id: "1",
-    title: "How to center a div in CSS?",
-    description: "I want to center a div both vertically and horizontally.",
-    tags: [
-      { _id: 1, name: "css" },
-      { _id: 2, name: "html" },
-    ],
-    author: {
-      _id: 1,
-      name: "John Doe",
-      image:
-        "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
-    },
-    upvotes: 10,
-    downvotes: 2,
-    answers: 5,
-    views: 65,
-    createdAt: new Date("2023-10-01"),
-  },
-  {
-    _id: "2",
-    title: "What is the difference between var, let, and const in JavaScript?",
-    description:
-      "Can someone explain the differences between var, let, and const?",
-    tags: [{ _id: 1, name: "JavaScript" }],
-    author: {
-      _id: 1,
-      name: "John Doe",
-      image:
-        "https://static.vecteezy.com/system/resources/previews/002/002/403/non_2x/man-with-beard-avatar-character-isolated-icon-free-vector.jpg",
-    },
-    upvotes: 20,
-    downvotes: 5,
-    answers: 5,
-    views: 75,
-    createdAt: new Date("2023-10-01"),
-  },
-];
-
-interface searchParams {
+interface SearchParams {
   searchParams: Promise<{ [key: string]: string }>;
 }
 
-const Home = async ({ searchParams }: searchParams) => {
-  const { query = "" } = await searchParams;
+const Home = async ({ searchParams }: SearchParams) => {
+  const { page, pageSize, query, filter } = await searchParams;
 
-  const filteredQuestions = questions.filter((question) =>
-    question.title.toLowerCase().includes(query?.toLowerCase())
-  );
+  const { success, data, error } = await getQuestions({
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 10,
+    query: query || "",
+    filter: filter || "",
+  });
+
+  const { questions } = data || {};
 
   return (
     <>
-      <section className="flex w-full flex-col-reverse sm:flex-row justify-between gap-4 sm:items-center">
+      <section className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
         <h1 className="h1-bold text-dark100_light900">All Questions</h1>
 
         <Button
@@ -81,12 +44,27 @@ const Home = async ({ searchParams }: searchParams) => {
         />
       </section>
       <HomeFilter />
-      <div className="mt-10 flex flex-col gap-6">
-        {filteredQuestions.map((question) => (
-          <QuestionCard key={question._id} question={question} />
-        ))}
-      </div>
+      {success ? (
+        <div className="mt-10 flex w-full flex-col gap-6">
+          {questions && questions.length > 0 ? (
+            questions.map((question) => (
+              <QuestionCard key={question._id} question={question} />
+            ))
+          ) : (
+            <div className="mt-10 flex w-full items-center justify-center">
+              <p className="text-dark400_light700">No questions found</p>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="mt-10 flex w-full items-center justify-center">
+          <p className="text-dark400_light700">
+            {error?.message || "Failed to fetch questions"}
+          </p>
+        </div>
+      )}
     </>
   );
 };
+
 export default Home;

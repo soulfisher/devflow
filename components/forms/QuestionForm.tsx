@@ -39,6 +39,7 @@ interface Params {
 
 const QuestionForm = ({ question, isEdit = false }: Params) => {
   const router = useRouter();
+  const editorRef = useRef<MDXEditorMethods>(null);
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof AskQuestionSchema>>({
     resolver: zodResolver(AskQuestionSchema),
@@ -125,7 +126,6 @@ const QuestionForm = ({ question, isEdit = false }: Params) => {
     });
   };
 
-  const editorRef = useRef<MDXEditorMethods>(null);
   return (
     <Form {...form}>
       <form
