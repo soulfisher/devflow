@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 
+import AllAnswers from "@/components/answers/AllAnswers";
 import TagCard from "@/components/cards/TagCard";
 import Preview from "@/components/editor/Preview";
 import AnswerForm from "@/components/forms/AnswerForm";
@@ -64,21 +65,21 @@ const QuestionDetails = async ({ params }: RouteParams) => {
 
       <div className="mb-8 mt-5 flex flex-wrap gap-4">
         <Metric
-          imgUrl="/icons.clock.svg"
+          imgUrl="/icons/clock.svg"
           alt="Clock Icon"
           value={` asked ${getTimeStamp(new Date(createdAt))}`}
           title=""
           textStyles="small-regular text-dark400_light700"
         />
         <Metric
-          imgUrl="/icons.message.svg"
+          imgUrl="/icons/message.svg"
           alt="Message Icon"
           value={answers}
           title=""
           textStyles="small-regular text-dark400_light700"
         />
         <Metric
-          imgUrl="/icons.eye.svg"
+          imgUrl="/icons/eye.svg"
           alt="Eye Icon"
           value={views}
           title=""
@@ -98,6 +99,15 @@ const QuestionDetails = async ({ params }: RouteParams) => {
           />
         ))} */}
       </div>
+
+      <section className="my-5">
+        <AllAnswers
+          data={answersResult?.answers}
+          success={areAnswersLoaded}
+          error={answersError}
+          totalAnswers={answersResult?.totalAnswers || 0}
+        />
+      </section>
 
       <section className="my-5">
         <AnswerForm questionId={question._id} />

@@ -38,6 +38,11 @@ export const EMPTY_TAGS = {
   },
 };
 
+export const EMPTY_ANSWERS = {
+  title: "No Answers Found",
+  message: "Looks like there are no answers for this question yet.",
+};
+
 export const EMPTY_COLLECTIONS = {
   title: "Collections Are Empty",
   message:
