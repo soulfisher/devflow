@@ -209,7 +209,11 @@ export async function getQuestion(
   const { questionId } = validationResult.params!;
 
   try {
-    const question = await Question.findById(questionId).populate("tags");
+    const question = await Question.findById(questionId)
+      // .populate("tags")
+      .populate("author", "_id name image");
+
+    // console.log(question);
 
     if (!question) {
       throw new Error("Question not found");
@@ -272,7 +276,7 @@ export async function getQuestions(
 
     const questions = await Question.find(filterQuery)
       // .populate("tags", "name")
-      // .populate("author", "name image")
+      .populate("author", "name image")
       .lean()
       .sort(sortCriteria)
       .skip(skip)
