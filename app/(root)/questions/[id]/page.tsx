@@ -15,7 +15,6 @@ import { formatNumber, getTimeStamp } from "@/lib/utils";
 
 const QuestionDetails = async ({ params }: RouteParams) => {
   const { id } = await params;
-  // console.log("QUESTION ID:", id);
   const { success, data: question } = await getQuestion({ questionId: id });
 
   if (!success || !question) return redirect("/404");
@@ -31,9 +30,6 @@ const QuestionDetails = async ({ params }: RouteParams) => {
     filter: "latest",
   });
 
-  console.log("Answers", answersResult);
-
-  // console.log("Data: ", question);
   const { author, createdAt, answers, views, tags, content, title } = question;
 
   return (
@@ -110,7 +106,11 @@ const QuestionDetails = async ({ params }: RouteParams) => {
       </section>
 
       <section className="my-5">
-        <AnswerForm questionId={question._id} />
+        <AnswerForm
+          questionId={question._id}
+          questionTitle={question.title}
+          questionContent={question.content}
+        />
       </section>
     </>
   );
