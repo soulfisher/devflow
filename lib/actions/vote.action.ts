@@ -1,6 +1,7 @@
 "use server";
 
 import mongoose, { ClientSession } from "mongoose";
+import { revalidatePath } from "next/cache";
 import { Action } from "sonner";
 
 import { Answer, Question, Vote } from "@/database";
@@ -12,6 +13,7 @@ import {
   HasVotedSchema,
   UpdateVoteCountSchema,
 } from "../validations";
+import ROUTES from "@/constants/routes";
 
 async function updateVoteCount(
   params: UpdateVoteCountParams,
@@ -93,9 +95,19 @@ async function createVote(params: CreatVoteParams): Promise<ActionResponse> {
         );
       }
     } else {
-      await Vote.create([{ targetId, targetType, voteType, change: 1 }], {
-        session,
-      });
+      await Vote.create(
+        [
+          {
+            author: userId,
+            actionId: targetId,
+            actionType: targetType,
+            voteType,
+          },
+        ],
+        {
+          session,
+        }
+      );
       await updateVoteCount(
         { targetId, targetType, voteType, change: 1 },
         session
@@ -104,6 +116,8 @@ async function createVote(params: CreatVoteParams): Promise<ActionResponse> {
 
     await session.commitTransaction();
     session.endSession();
+
+    revalidatePath(ROUTES.Question(targetId));
 
     return { success: true };
   } catch (error) {
