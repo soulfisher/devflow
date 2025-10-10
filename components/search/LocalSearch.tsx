@@ -8,12 +8,19 @@ import { formUrlQuery, removeKeysFromUrlQuery } from "@/lib/url";
 import { Input } from "../ui/input";
 interface Props {
   route: string;
+  iconPosition?: "left" | "right";
   imgSrc: string;
   placeholder: string;
   otherClasses?: string;
 }
 
-const LocalSearch = ({ route, imgSrc, placeholder, otherClasses }: Props) => {
+const LocalSearch = ({
+  route,
+  iconPosition = "left",
+  imgSrc,
+  placeholder,
+  otherClasses,
+}: Props) => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
