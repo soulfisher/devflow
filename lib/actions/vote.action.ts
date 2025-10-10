@@ -2,8 +2,8 @@
 
 import mongoose, { ClientSession } from "mongoose";
 import { revalidatePath } from "next/cache";
-import { Action } from "sonner";
 
+import ROUTES from "@/constants/routes";
 import { Answer, Question, Vote } from "@/database";
 
 import action from "../handlers/action";
@@ -13,11 +13,10 @@ import {
   HasVotedSchema,
   UpdateVoteCountSchema,
 } from "../validations";
-import ROUTES from "@/constants/routes";
 
-async function updateVoteCount(
+export async function updateVoteCount(
   params: UpdateVoteCountParams,
-  session: ClientSession
+  session?: ClientSession
 ): Promise<ActionResponse> {
   const validationResult = await action({
     params,
@@ -41,7 +40,7 @@ async function updateVoteCount(
     );
 
     if (!result)
-      return handleError("Faile to. update vote count") as ErrorResponse;
+      return handleError("Failed to update vote count") as ErrorResponse;
 
     return { success: true, data: result };
   } catch (error) {
@@ -49,7 +48,9 @@ async function updateVoteCount(
   }
 }
 
-async function createVote(params: CreatVoteParams): Promise<ActionResponse> {
+export async function createVote(
+  params: CreateVoteParams
+): Promise<ActionResponse> {
   const validationResult = await action({
     params,
     schema: CreateVoteSchema,
@@ -90,6 +91,10 @@ async function createVote(params: CreatVoteParams): Promise<ActionResponse> {
           { new: true, session }
         );
         await updateVoteCount(
+          { targetId, targetType, voteType: existingVote.voteType, change: -1 },
+          session
+        );
+        await updateVoteCount(
           { targetId, targetType, voteType, change: 1 },
           session
         );
@@ -117,7 +122,7 @@ async function createVote(params: CreatVoteParams): Promise<ActionResponse> {
     await session.commitTransaction();
     session.endSession();
 
-    revalidatePath(ROUTES.Question(targetId));
+    revalidatePath(ROUTES.QUESTION(targetId));
 
     return { success: true };
   } catch (error) {

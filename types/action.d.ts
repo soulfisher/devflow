@@ -43,7 +43,7 @@ interface GetAnswersParams extends PaginatedSearchParams {
   questionId: string;
 }
 
-interface CreatVoteParams {
+interface CreateVoteParams {
   targetId: string;
   targetType: "question" | "answer";
   voteType: "upvote" | "downvote";
