@@ -63,7 +63,7 @@ const QuestionDetails = async ({ params }: RouteParams) => {
             </Link>
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex justify-end items-center gap-4">
             <Suspense fallback={<div>Loading...</div>}>
               <Votes
                 upvotes={question.upvotes}
@@ -76,7 +76,7 @@ const QuestionDetails = async ({ params }: RouteParams) => {
 
             <Suspense fallback={<div>Loading...</div>}>
               <SaveQuestion
-                question={question._id}
+                questionId={question._id}
                 hasSavedQuestionPromise={hasSavedQuestionPromise}
               />
             </Suspense>

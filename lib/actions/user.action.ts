@@ -22,8 +22,8 @@ export async function GetUsers(
 
   const { page = 1, pageSize = 10, query, filter } = params;
 
-  const skip = (Number(page) - 1) * Number(pageSize);
-  const limit = Number(pageSize);
+  const skip = (Number(page) - 1) * pageSize;
+  const limit = pageSize;
 
   const filterQuery: FilterQuery<typeof User> = {};
 

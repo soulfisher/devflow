@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 
-import { auth } from "@/auth";
 import ROUTES from "@/constants/routes";
 import { Collection, Question } from "@/database";
 
@@ -22,6 +21,8 @@ export async function toggleSaveQuestion(
   if (validationResult instanceof Error) {
     return handleError(validationResult) as ErrorResponse;
   }
+
+  console.log("validationResult:", validationResult);
 
   const { questionId } = validationResult.params!;
 

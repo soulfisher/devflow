@@ -67,5 +67,5 @@ interface User {
   image?: string;
   location?: string;
   portfolio?: string;
-  reputation: number;
+  reputation?: number;
 }
