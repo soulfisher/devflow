@@ -99,11 +99,11 @@ const QuestionForm = ({ question, isEdit = false }: Params) => {
         });
 
         if (result.success) {
-          toast("Success", {
+          toast.success("Success", {
             description: "Question updated successfully",
           });
         } else {
-          toast(`Error: ${result.status}`, {
+          toast.error(`Error: ${result.status}`, {
             description: result.error?.message || "Something went wrong",
           });
         }
@@ -113,11 +113,11 @@ const QuestionForm = ({ question, isEdit = false }: Params) => {
       const result = await createQuestion(data);
 
       if (result.success) {
-        toast("Success", {
+        toast.success("Success", {
           description: "Question created successfully",
         });
       } else {
-        toast(`Error: ${result.status}`, {
+        toast.error(`Error: ${result.status}`, {
           description: result.error?.message || "Something went wrong",
         });
       }

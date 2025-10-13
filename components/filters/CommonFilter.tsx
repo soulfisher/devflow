@@ -47,7 +47,7 @@ const CommonFilter = ({
   return (
     <div className={cn("relative", containerClasses)}>
       <Select
-        onValueChange={(value) => handleUpdateParams}
+        onValueChange={handleUpdateParams}
         defaultValue={paramsFilter || undefined}
       >
         <SelectTrigger

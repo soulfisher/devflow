@@ -8,7 +8,7 @@ import { auth } from "@/auth";
 import { UnauthorizedError, ValidationError } from "../http-errors";
 import dbConnect from "../mongoose";
 
-type AcitionOptions<T> = {
+type ActionOptions<T> = {
   params?: T;
   schema?: ZodSchema<T>;
   authorize?: boolean;
@@ -18,7 +18,7 @@ async function action<T>({
   params,
   schema,
   authorize = false,
-}: AcitionOptions<T>) {
+}: ActionOptions<T>) {
   if (schema && params) {
     try {
       schema.parse(params);

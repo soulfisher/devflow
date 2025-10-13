@@ -34,6 +34,12 @@ const QuestionCard = ({
         {/* {tags.map((tag: Tag) => (
           <TagCard key={tag._id} _id={tag._id} name={tag.name} compact />
         ))} */}
+
+        {tags.map((tag) => (
+          <div key={tag._id} className="text-white">
+            {tag.name}
+          </div>
+        ))}
       </div>
 
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
