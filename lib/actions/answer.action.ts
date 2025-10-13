@@ -1,6 +1,5 @@
 "use server";
 
-import { filter } from "@mdxeditor/editor";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 
