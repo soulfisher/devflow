@@ -3,6 +3,7 @@ import React from "react";
 import QuestionCard from "@/components/cards/QuestionCard";
 import DataRenderer from "@/components/DataRenderer";
 import CommonFilter from "@/components/filters/CommonFilter";
+import Pagination from "@/components/Pagination";
 import LocalSearch from "@/components/search/LocalSearch";
 import { HomePageFilters } from "@/constants/filters";
 import ROUTES from "@/constants/routes";
@@ -20,7 +21,7 @@ const page = async ({ params, searchParams }: RouteParams) => {
     query,
   });
 
-  const { tag, questions } = data || {};
+  const { tag, questions, isNext } = data || {};
 
   return (
     <>
@@ -54,6 +55,8 @@ const page = async ({ params, searchParams }: RouteParams) => {
           </div>
         )}
       />
+
+      <Pagination page={page} isNext={isNext || false} />
     </>
   );
 };
