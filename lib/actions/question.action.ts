@@ -8,6 +8,7 @@ import Tag, { ITagDoc } from "@/database/tag.model";
 
 import action from "../handlers/action";
 import handleError from "../handlers/error";
+import dbConnect from "../mongoose";
 import {
   AskQuestionSchema,
   EditQuestionSchema,
@@ -211,7 +212,7 @@ export async function getQuestion(
 
   try {
     const question = await Question.findById(questionId)
-      // .populate("tags")
+      .populate("tags")
       .populate("author", "_id name image");
 
     // console.log(question);
@@ -276,7 +277,7 @@ export async function getQuestions(
     const totalQuestions = await Question.countDocuments(filterQuery);
 
     const questions = await Question.find(filterQuery)
-      // .populate("tags", "name")
+      .populate("tags", "name")
       .populate("author", "name image")
       .lean()
       .sort(sortCriteria)
@@ -320,6 +321,20 @@ export async function incrementView(
     await question.save();
 
     return { success: true, data: { views: question.views } };
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
+  }
+}
+
+export async function getHotQuestions(): Promise<ActionResponse<Question[]>> {
+  try {
+    await dbConnect();
+
+    const questions = await Question.find()
+      .sort({ views: -1, upvotes: -1 })
+      .limit(5);
+
+    return { success: true, data: JSON.parse(JSON.stringify(questions)) };
   } catch (error) {
     return handleError(error) as ErrorResponse;
   }

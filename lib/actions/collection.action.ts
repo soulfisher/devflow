@@ -26,8 +26,6 @@ export async function toggleSaveQuestion(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  console.log("validationResult:", validationResult);
-
   const { questionId } = validationResult.params!;
 
   const userId = validationResult.session?.user?.id;

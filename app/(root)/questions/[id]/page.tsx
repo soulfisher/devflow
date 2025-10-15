@@ -115,14 +115,14 @@ const QuestionDetails = async ({ params, searchParams }: RouteParams) => {
       <Preview content={content} />
 
       <div className="mt-8 flex flex-wrap gap-2">
-        {/* {tags.map((tag: Tag) => (
+        {tags.map((tag: Tag) => (
           <TagCard
             key={tag._id}
             _id={tag._id as string}
             name={tag.name}
             compact
           />
-        ))} */}
+        ))}
       </div>
 
       <section className="my-5">
