@@ -6,7 +6,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -30,7 +30,7 @@ interface Props {
 }
 
 const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
-  const [isAnswering, startAnsweringTransition] = useState(false);
+  const [isAnswering, startAnsweringTransition] = useTransition();
   const [isAISubmitting, setIsAISubmitting] = useState(false);
   const session = useSession();
 
@@ -55,7 +55,7 @@ const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
 
       if (result.success) {
         form.reset();
-        toast("Success", {
+        toast.success("Success", {
           description: "Your answer has been posted successfully.",
         });
 
@@ -63,7 +63,7 @@ const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
           editorRef.current.setMarkdown("");
         }
       } else {
-        toast("Error", { description: result.error?.message });
+        toast.error("Error", { description: result.error?.message });
       }
     });
   };
