@@ -22,8 +22,6 @@ import {
   getUserTopTags,
 } from "@/lib/actions/user.action";
 
-import page from "../../page";
-
 const Profile = async ({ params, searchParams }: RouteParams) => {
   const { id } = params;
   const { page, pageSize } = searchParams;
@@ -76,17 +74,8 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
   const { answers, isNext: hasMoreAnswers } = userAnswers!;
   const { tags } = userTopTags!;
 
-  const {
-    _id,
-    name,
-    image,
-    bio,
-    location,
-    portfolio,
-    reputation,
-    createdAt,
-    username,
-  } = user;
+  const { _id, name, image, bio, location, portfolio, createdAt, username } =
+    user;
 
   return (
     <>
@@ -151,6 +140,7 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
           SILVER: 0,
           BRONZE: 0,
         }}
+        reputationPoints={user.reputation || 0}
       />
 
       <section className="mt-10 flex gap-10">

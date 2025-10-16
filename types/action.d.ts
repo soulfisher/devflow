@@ -73,7 +73,7 @@ interface GetUserParams {
 }
 
 interface GetUserQuestionsParams
-  extends Omit<PaginatedSearchParams, "query", "filter" | "sort"> {
+  extends Omit<PaginatedSearchParams, "query | filter | sort"> {
   userId: string;
 }
 
@@ -87,4 +87,30 @@ interface GetUserTagsParams {
 
 interface DeleteQuestionParams {
   questionId: string;
+}
+
+interface DeleteAnswerParams {
+  answerId: string;
+}
+
+interface CreateInteractionParams {
+  action:
+    | "view"
+    | "upvote"
+    | "downvote"
+    | "bookmark"
+    | "post"
+    | "edit"
+    | "delete"
+    | "search";
+  actionTarget: "question" | "answer";
+  actionId: string;
+  authorId: string;
+}
+
+interface UpdateReputationParams {
+  interaction: IInteractionDoc;
+  session: mongoose.ClientSession;
+  performerId: string;
+  authorId: string;
 }

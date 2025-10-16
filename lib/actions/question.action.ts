@@ -1,10 +1,9 @@
 "use server";
 
-import { Delete } from "lucide-react";
 import mongoose, { FilterQuery } from "mongoose";
 import { revalidatePath } from "next/cache";
 
-import { Collection, Vote } from "@/database";
+import { Answer, Collection, Vote } from "@/database";
 import Question, { IQuestionDoc } from "@/database/question.model";
 import TagQuestion from "@/database/tag-question.model";
 import Tag, { ITagDoc } from "@/database/tag.model";
@@ -346,7 +345,7 @@ export async function getHotQuestions(): Promise<ActionResponse<Question[]>> {
 
 export async function deleteQuestion(
   params: DeleteQuestionParams
-): Promise<ActionResponse<IQuestionDoc>> {
+): Promise<ActionResponse> {
   const validationResult = await action({
     params,
     schema: DeleteQuestionSchema,
@@ -358,29 +357,27 @@ export async function deleteQuestion(
   }
 
   const { questionId } = validationResult.params!;
-  const userId = validationResult?.session?.user?.id;
+  const { user } = validationResult.session!;
 
+  // Create a Mongoose Session
   const session = await mongoose.startSession();
-  session.startTransaction();
 
   try {
+    session.startTransaction();
+
     const question = await Question.findById(questionId).session(session);
+    if (!question) throw new Error("Question not found");
 
-    if (!question) {
-      throw new Error("Question not found");
-    }
-
-    if (question.author.id.toString() !== userId) {
+    if (question.author.toString() !== user?.id)
       throw new Error("You are not authorized to delete this question");
-    }
 
-    // Delete references from Collections
+    // Delete references from collection
     await Collection.deleteMany({ question: questionId }).session(session);
 
-    // Delete refernces from TagQuestions
+    // Delete references from TagQuestion collection
     await TagQuestion.deleteMany({ question: questionId }).session(session);
 
-    // Update tag counts in Tags
+    // For all tags of Question, find them and reduce their count
     if (question.tags.length > 0) {
       await Tag.updateMany(
         { _id: { $in: question.tags } },
@@ -389,19 +386,19 @@ export async function deleteQuestion(
       );
     }
 
-    // Delete all votes related to this question
+    // Remove all votes of the question
     await Vote.deleteMany({
       actionId: questionId,
       actionType: "question",
-    });
+    }).session(session);
 
-    // Find answers and their votes and delete them
+    // Remove all answers and their votes of the question
     const answers = await Answer.find({ question: questionId }).session(
       session
     );
 
     if (answers.length > 0) {
-      await Answer.deleteMany({}).session(session);
+      await Answer.deleteMany({ question: questionId }).session(session);
 
       await Vote.deleteMany({
         actionId: { $in: answers.map((answer) => answer.id) },
@@ -409,18 +406,21 @@ export async function deleteQuestion(
       }).session(session);
     }
 
-    // Finally delete the question
-    await question.findByIdAndDelete(questionId).session(session);
+    // Delete question
+    await Question.findByIdAndDelete(questionId).session(session);
 
+    // Commit transaction
     await session.commitTransaction();
-    await session.endSession();
+    session.endSession();
 
+    // Revalidate to reflect immediate changes on UI
     revalidatePath(`/profile/${user?.id}`);
 
     return { success: true };
   } catch (error) {
     await session.abortTransaction();
-    await session.endSession();
+    session.endSession();
+
     return handleError(error) as ErrorResponse;
   }
 }
