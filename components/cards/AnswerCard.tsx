@@ -1,12 +1,13 @@
 import Link from "next/link";
-import React from "react";
-import { id } from "zod/v4/locales";
+import React, { Suspense } from "react";
 
 import ROUTES from "@/constants/routes";
+import { hasVoted } from "@/lib/actions/vote.action";
 import { cn, getTimeStamp } from "@/lib/utils";
 
 import Preview from "../editor/Preview";
 import UserAvatar from "../UserAvatar";
+import Votes from "../votes/Votes";
 
 interface Props extends Answer {
   containerClasses?: string;
@@ -24,6 +25,10 @@ const AnswerCard = ({
   containerClasses,
   showReadMore = false,
 }: Props) => {
+  const hasVotedPromise = hasVoted({
+    targetId: _id,
+    targetType: "answer",
+  });
   return (
     <article className={cn("light-border border-b py-10", containerClasses)}>
       <span className="hash-span" id={`answer-${_id}`} />
@@ -49,7 +54,17 @@ const AnswerCard = ({
           </Link>
         </div>
 
-        <div className="flex justify-end">Votes</div>
+        <div className="flex justify-end items-center gap-4">
+          <Suspense fallback={<div>Loading...</div>}>
+            <Votes
+              upvotes={upvotes}
+              downvotes={downvotes}
+              targetType="answer"
+              targetId={_id}
+              hasVotedPromise={hasVotedPromise}
+            />
+          </Suspense>
+        </div>
       </div>
 
       <Preview content={content} />
