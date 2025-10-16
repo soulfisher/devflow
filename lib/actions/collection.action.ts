@@ -45,17 +45,27 @@ export async function toggleSaveQuestion(
 
       revalidatePath(ROUTES.QUESTION(questionId));
 
-      return { success: true, data: { saved: false } };
+      return {
+        success: true,
+        data: {
+          saved: false,
+        },
+      };
     }
 
     await Collection.create({
-      queston: questionId,
+      question: questionId,
       author: userId,
     });
 
     revalidatePath(ROUTES.QUESTION(questionId));
 
-    return { success: true, data: { saved: true } };
+    return {
+      success: true,
+      data: {
+        saved: true,
+      },
+    };
   } catch (error) {
     return handleError(error) as ErrorResponse;
   }
