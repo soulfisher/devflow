@@ -36,6 +36,7 @@ const Pagination = ({ page = 1, isNext, containerClasses }: Props) => {
         containerClasses
       )}
     >
+      {/* Prev page button */}
       {Number(page) > 1 && (
         <Button
           onClick={() => handleNavigation("prev")}
@@ -49,6 +50,7 @@ const Pagination = ({ page = 1, isNext, containerClasses }: Props) => {
         <p className="body-semibold text-light-900">{page}</p>
       </div>
 
+      {/* Next page button */}
       {isNext && (
         <Button
           onClick={() => handleNavigation("next")}

@@ -23,7 +23,7 @@ const AllAnswers = ({
   totalAnswers,
 }: Props) => {
   return (
-    <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
+    <div className="mt-11">
       <div className="flex items-center justify-between">
         <h3 className="primary-text-gradient">
           {totalAnswers} {totalAnswers === 1 ? "Answer" : "Answers"}
@@ -34,19 +34,19 @@ const AllAnswers = ({
           otherClasses="sm:min-w-[32px]"
           containerClasses="max-xs:w-full"
         />
-
-        <DataRenderer
-          data={data}
-          success={success}
-          error={error}
-          empty={EMPTY_ANSWERS}
-          render={(answers) =>
-            answers.map((answer) => <AnswerCard key={answer._id} {...answer} />)
-          }
-        />
-
-        <Pagination page={page} isNext={isNext || false} />
       </div>
+
+      <DataRenderer
+        data={data}
+        success={success}
+        error={error}
+        empty={EMPTY_ANSWERS}
+        render={(answers) =>
+          answers.map((answer) => <AnswerCard key={answer._id} {...answer} />)
+        }
+      />
+
+      <Pagination page={page} isNext={isNext || false} />
     </div>
   );
 };

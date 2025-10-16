@@ -39,13 +39,15 @@ const AnswerCard = ({
             id={author._id}
             name={author.name}
             imageUrl={author.image}
-            className="size-5 rounded-full object-cover max-sm:mt-0.5"
+            className="size-5 rounded-full object-cover max-sm:mt-2"
           />
           <Link
             href={ROUTES.PROFILE(author._id)}
             className="flex flex-col sm:flex-row sm:items-center max-sm:ml-1"
           >
-            <p className="body-semibold text-dark300_light700">{author.name}</p>
+            <p className="body-semibold text-dark300_light700">
+              {author.name || "Anonymous"}
+            </p>
 
             <p className="small-regular text-light400_light500 ml-0.5 mt-0.5 line-clamp-1">
               <span className="max-sm:hidden"> • </span> answered{" "}
