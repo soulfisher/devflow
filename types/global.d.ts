@@ -57,6 +57,9 @@ interface Answer {
   content: string;
   author: Author;
   createdAt: Date;
+  upvotes: number;
+  downvotes: number;
+  question: string;
 }
 
 interface User {
