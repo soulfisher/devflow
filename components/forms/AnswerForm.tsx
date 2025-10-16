@@ -153,7 +153,7 @@ const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
             name="content"
             render={({ field }) => (
               <FormItem className="flex w-full flex-col gap-3">
-                <FormControl className="mt-3.5">
+                <FormControl>
                   <Editor
                     value={field.value}
                     editorRef={editorRef}

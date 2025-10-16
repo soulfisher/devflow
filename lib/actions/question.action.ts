@@ -295,7 +295,7 @@ export async function getQuestions(
   }
 }
 
-export async function incrementView(
+export async function incrementViews(
   params: IncrementViewsParams
 ): Promise<ActionResponse<{ views: number }>> {
   const validationResult = await action({
