@@ -40,6 +40,7 @@ const Votes = ({
 
     try {
       const result = await createVote({ targetId, targetType, voteType });
+
       if (!result.success) {
         toast("Failed to vote", { description: result.error?.message });
       }
