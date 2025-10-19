@@ -21,11 +21,12 @@ const SocialAuthForm = () => {
     } catch (error) {
       console.log(error);
 
-      toast("Sign-in failed", {
+      toast.error("Sign-in failed", {
         description:
           error instanceof Error
             ? error.message
             : "An error occured during sign-in",
+        style: { background: "rgb(127, 29, 29)" },
       });
     }
   };

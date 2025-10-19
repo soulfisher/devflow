@@ -27,7 +27,9 @@ const SaveQuestion = ({
     if (isLoading) return;
 
     if (!userId)
-      return toast.error("You need to be logged in to save a question.");
+      return toast.error("You need to be logged in to save a question.", {
+        style: { background: "rgb(127, 29, 29)" },
+      });
 
     setIsLoading(true);
 
@@ -36,11 +38,14 @@ const SaveQuestion = ({
 
       if (!success) throw new Error(error?.message || "An error occurred");
 
-      toast(`Question ${data?.saved ? "saved" : "unsaved"} successfully`);
+      toast.success(
+        `Question ${data?.saved ? "saved" : "unsaved"} successfully`
+      );
     } catch (error) {
       toast.error("Error", {
         description:
           error instanceof Error ? error.message : "An error occurred",
+        style: { background: "rgb(127, 29, 29)" },
       });
     } finally {
       setIsLoading(false);

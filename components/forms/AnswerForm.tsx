@@ -63,7 +63,10 @@ const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
           editorRef.current.setMarkdown("");
         }
       } else {
-        toast.error("Error", { description: result.error?.message });
+        toast.error("Error", {
+          description: result.error?.message,
+          style: { background: "rgb(127,29,29)" },
+        });
       }
     });
   };
@@ -87,8 +90,9 @@ const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
       );
 
       if (!success) {
-        toast("Error", {
+        toast.error("Error", {
           description: error?.message,
+          style: { background: "rgb(127, 29, 29)" },
         });
       }
 
@@ -100,13 +104,16 @@ const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
         form.trigger("content");
       }
 
-      toast("Success", { description: "AI answer has been generated." });
+      toast.success("Success", {
+        description: "AI answer has been generated.",
+      });
     } catch (error) {
-      toast("Error", {
+      toast.error("Error", {
         description:
           error instanceof Error
             ? error?.message
             : "There was a problem with your request.",
+        style: { background: "rgb(127, 29, 29)" },
       });
     } finally {
       setIsAISubmitting(false);
@@ -132,7 +139,7 @@ const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
           ) : (
             <>
               <Image
-                src="icons/stars.svg"
+                src="/icons/stars.svg"
                 alt="Generate AI Answer"
                 width={12}
                 height={12}

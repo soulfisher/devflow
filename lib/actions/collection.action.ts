@@ -1,6 +1,6 @@
 "use server";
 
-import { PipelineStage } from "mongoose";
+import mongoose, { PipelineStage, Types } from "mongoose";
 import { revalidatePath } from "next/cache";
 
 import ROUTES from "@/constants/routes";
@@ -151,7 +151,7 @@ export async function getSavedQuestions(
           as: "question.author",
         },
       },
-      { $unwind: "question.author" },
+      { $unwind: "$question.author" },
       {
         $lookup: {
           from: "tags",
@@ -177,7 +177,8 @@ export async function getSavedQuestions(
       ...pipeline,
       { $count: "count" },
     ]);
-    pipeline.push({ $sort: sortCriteria, $skip: skip, $limit: limit });
+
+    pipeline.push({ $sort: sortCriteria }, { $skip: skip }, { $limit: limit });
     pipeline.push({ $project: { question: 1, author: 1 } });
 
     const questions = await Collection.aggregate(pipeline);

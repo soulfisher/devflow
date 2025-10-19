@@ -42,17 +42,23 @@ const Votes = ({
       const result = await createVote({ targetId, targetType, voteType });
 
       if (!result.success) {
-        toast("Failed to vote", { description: result.error?.message });
+        toast.error("Failed to vote", {
+          description: result.error?.message,
+          style: { background: "rgb(127, 29, 29)" },
+        });
       }
       const successMessage =
         voteType === "upvote"
           ? `Upvote ${!hasUpvoted ? "added" : "removed"} successfully`
           : `Downvote ${!hasDownvoted ? "added" : "removed"} successfully`;
 
-      toast(successMessage, { description: "Your vote has been recorded." });
+      toast.success(successMessage, {
+        description: "Your vote has been recorded.",
+      });
     } catch {
-      toast("Failed to vote", {
+      toast.error("Failed to vote", {
         description: "An error occurred while voting. Please try again later.",
+        style: { background: "rgb(127, 29, 29)" },
       });
     } finally {
       setIsLoading(false);

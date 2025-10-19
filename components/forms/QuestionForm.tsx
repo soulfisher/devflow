@@ -105,6 +105,7 @@ const QuestionForm = ({ question, isEdit = false }: Params) => {
         } else {
           toast.error(`Error: ${result.status}`, {
             description: result.error?.message || "Something went wrong",
+            style: { background: "rgb(127, 29, 29)" },
           });
         }
         return;
@@ -119,6 +120,7 @@ const QuestionForm = ({ question, isEdit = false }: Params) => {
       } else {
         toast.error(`Error: ${result.status}`, {
           description: result.error?.message || "Something went wrong",
+          style: { background: "rgb(127, 29, 29)" },
         });
       }
 

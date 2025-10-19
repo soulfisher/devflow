@@ -51,7 +51,7 @@ const AuthForm = <T extends FieldValues>({
     const result = (await onSubmit(data)) as ActionResponse;
 
     if (result?.success) {
-      toast("Success", {
+      toast.success("Success", {
         description:
           formType === "SIGN_IN"
             ? "Signed in successfully"
@@ -59,8 +59,9 @@ const AuthForm = <T extends FieldValues>({
       });
       router.push(ROUTES.HOME);
     } else {
-      toast(`Error ${result?.status}`, {
+      toast.error(`Error ${result?.status}`, {
         description: result?.error?.message,
+        style: { background: "rgb(127, 29, 29)" },
       });
     }
   };

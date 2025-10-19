@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     }
 
     const { text } = await generateText({
-      model: groq("llama-3.3-70b-versatile"),
+      model: groq("openai/gpt-oss-20b"),
       prompt: `Generate a markdown-formatted response to the following question: "${question}".
 
 Consider the provided context:
