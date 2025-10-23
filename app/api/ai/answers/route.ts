@@ -33,6 +33,8 @@ Provide the final answer in markdown format.`,
         "You are a helpful assistant that provides informative responses in markdown format. Use appropriate markdown syntax for headings, lists, code blocks, and emphasis where necessary. For code blocks, use short-form smaller case language identifiers (e.g., 'js' for JavaScript, 'py' for Python, 'ts' for TypeScript, 'html' for HTML, 'css' for CSS, etc.).",
     });
 
+    // console.log("Generated Answer:", text);
+
     return NextResponse.json({ success: true, data: text }, { status: 200 });
   } catch (error) {
     return handleError(error, "api") as APIErrorResponse;

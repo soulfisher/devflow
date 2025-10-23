@@ -92,3 +92,26 @@ interface Badges {
   SILVER: number;
   BRONZE: number;
 }
+
+interface Job {
+  id?: string;
+  employer_name?: string;
+  employer_logo?: string | undefined | null;
+  employer_website?: string;
+  job_employment_type?: string;
+  job_title?: string;
+  job_description?: string;
+  job_apply_link?: string;
+  job_city?: string;
+  job_state?: string;
+  job_country?: string;
+  job_salary?: string;
+  job_min_salary?: number;
+  job_max_salary?: number;
+}
+
+interface Country {
+  name: {
+    common: string;
+  };
+}
