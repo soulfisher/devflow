@@ -24,8 +24,8 @@ import {
 } from "@/lib/actions/user.action";
 
 const Profile = async ({ params, searchParams }: RouteParams) => {
-  const { id } = params;
-  const { page, pageSize } = searchParams;
+  const { id } = await params;
+  const { page, pageSize } = await searchParams;
 
   if (!id) notFound();
 
@@ -109,7 +109,7 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
                 />
               )}
               {location && (
-                <ProfileLink imgUrl="/icons/location.svg" title="Location" />
+                <ProfileLink imgUrl="/icons/location.svg" title={location} />
               )}
 
               <ProfileLink
