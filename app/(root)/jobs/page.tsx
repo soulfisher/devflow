@@ -1,10 +1,7 @@
 import React from "react";
-
 import JobCard from "@/components/cards/JobCard";
-
 import JobFilter from "@/components/filters/JobFilter";
 import Pagination from "@/components/Pagination";
-
 import {
   fetchCountries,
   fetchJobs,
@@ -25,10 +22,6 @@ const FindAJob = async ({ searchParams }: RouteParams) => {
 
   // console.log("User Location:", userLocation);
   // console.log("Jobs: ", jobs);
-
-  const success = true;
-  const error = undefined;
-  const data = null;
 
   const countries = await fetchCountries();
   const parsedPage = parseInt(page ?? 1);

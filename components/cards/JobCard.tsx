@@ -48,7 +48,6 @@ const JobCard = ({
     job_state,
     job_country,
     job_employment_type,
-    job_salary,
     job_apply_link,
     job_min_salary,
     job_max_salary,
