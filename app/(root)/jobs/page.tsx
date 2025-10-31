@@ -1,16 +1,10 @@
-import { SearchParams } from "next/dist/server/request/search-params";
-import Link from "next/link";
 import React from "react";
 
 import JobCard from "@/components/cards/JobCard";
-import DataRenderer from "@/components/DataRenderer";
-import CommonFilter from "@/components/filters/CommonFilter";
+
 import JobFilter from "@/components/filters/JobFilter";
 import Pagination from "@/components/Pagination";
-import LocalSearch from "@/components/search/LocalSearch";
-import { Button } from "@/components/ui/button";
-import { HomePageFilters } from "@/constants/filters";
-import { EMPTY_JOBS } from "@/constants/states";
+
 import {
   fetchCountries,
   fetchJobs,

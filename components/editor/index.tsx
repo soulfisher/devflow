@@ -8,7 +8,6 @@ import {
   markdownShortcutPlugin,
   MDXEditor,
   type MDXEditorMethods,
-  type MDXEditorProps,
   toolbarPlugin,
   ConditionalContents,
   ChangeCodeMirrorLanguage,
@@ -32,7 +31,7 @@ import {
 import "@mdxeditor/editor/style.css";
 import { basicDark } from "cm6-theme-basic-dark";
 import { useTheme } from "next-themes";
-import type { ForwardedRef, Ref } from "react";
+import type { Ref } from "react";
 import "./dark-editor.css";
 
 interface Props {

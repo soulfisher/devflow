@@ -1,5 +1,3 @@
-import { id } from "zod/v4/locales";
-
 const tickets = [
   {
     id: 1,

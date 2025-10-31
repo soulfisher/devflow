@@ -1,13 +1,11 @@
 "use client";
-import Link from "next/link";
+
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
 import { formUrlQuery } from "@/lib/url";
-import { cn } from "@/lib/utils";
 
 import LocalSearch from "../search/LocalSearch";
-import { Button } from "../ui/button";
 import {
   Select,
   SelectContent,
