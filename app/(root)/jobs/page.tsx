@@ -17,8 +17,8 @@ import {
   fetchLocation,
 } from "@/lib/actions/job.action";
 
-const FindAJob = async ({ searchParams }: SearchParams) => {
-  const { page, query, location } = await searchParams;
+const FindAJob = async ({ searchParams }: RouteParams) => {
+  const { query, location, page } = await searchParams;
   const userLocation = await fetchLocation();
 
   // console.log("Location:", location);
@@ -26,7 +26,7 @@ const FindAJob = async ({ searchParams }: SearchParams) => {
 
   const jobs = await fetchJobs({
     query: `${query}, ${location}` || `Software Engineer in ${userLocation}`,
-    page: page ?? 1,
+    page: parseInt(page) ?? 1,
   });
 
   // console.log("User Location:", userLocation);
@@ -92,7 +92,7 @@ const FindAJob = async ({ searchParams }: SearchParams) => {
         empty={EMPTY_JOBS}
         render={() => ( */}
       <div className="mt-10 flex flex-col gap-6">
-        {jobs.map((job) => (
+        {jobs.map((job: Job) => (
           <JobCard key={job.id} job={job} />
         ))}
       </div>
