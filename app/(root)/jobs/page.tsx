@@ -3,7 +3,6 @@ import React from "react";
 import JobCard from "@/components/cards/JobCard";
 import JobFilter from "@/components/filters/JobFilter";
 import Pagination from "@/components/Pagination";
-
 import {
   fetchCountries,
   fetchJobs,
